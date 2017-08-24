@@ -1,7 +1,7 @@
 [crawl]
 
 # Logfile
-logfile = log/crawl.log
+logfile = log/crawl.fbc0b6db.log
 
 # Network magic number
 magic_number = fbc0b6db
