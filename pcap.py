@@ -36,6 +36,8 @@ import os
 import socket
 import sys
 import time
+import struct
+
 from binascii import unhexlify
 from collections import defaultdict
 from ConfigParser import ConfigParser
@@ -115,12 +117,12 @@ class Cache(object):
                         _data = data.next()
                     except StopIteration:
                         break
-                # except struct.error as err:
-                #     logging.error("struct.error %s: %s", stream_id, err)
-                #     try:
-                #         _data = data.next()
-                #     except StopIteration:
-                #         break
+                except struct.error as err:
+                    logging.error("struct.error %s: %s", stream_id, err)
+                    try:
+                        _data = data.next()
+                    except StopIteration:
+                        break
                 except OverflowError as err:
                     logging.error("OverflowError %s: %s", stream_id, err)
                     try:
