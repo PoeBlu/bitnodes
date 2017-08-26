@@ -930,7 +930,7 @@ class Connection(object):
 
 
 def main():
-    to_addr = ("173.209.44.34", PORT)
+    to_addr = ("34.231.133.189", PORT)
     to_services = TO_SERVICES
 
     handshake_msgs = []
