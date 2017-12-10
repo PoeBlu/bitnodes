@@ -15,9 +15,6 @@ debug = True
 # Relative path to directory containing timestamp-prefixed JSON export files
 export_dir = data/export/fbc0b6db
 
-# Minimum height for exported nodes
-min_height = 478000
-
 # Minimum age for exported nodes
 min_age = 28800
 
