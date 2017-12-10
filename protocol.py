@@ -158,7 +158,7 @@ MIN_PROTOCOL_VERSION = 70001
 PROTOCOL_VERSION = 70015
 FROM_SERVICES = 0
 TO_SERVICES = 1  # NODE_NETWORK
-USER_AGENT = "/litenodes:1.0/"
+USER_AGENT = "/litenodes.net:1.1/"
 HEIGHT = 478000
 RELAY = 0  # set to 1 to receive all txs
 
