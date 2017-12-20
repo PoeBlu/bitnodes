@@ -15,7 +15,7 @@
   roles:
     - role: zzet.rbenv
     - role: deploy
-    - role: nvm
+    - role: leonidas.nvm
     - role: redis
       redis_version: 4.0.6
       become: yes

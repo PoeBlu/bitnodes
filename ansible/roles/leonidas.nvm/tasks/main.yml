@@ -9,14 +9,12 @@
   tags: nvm
 
 - name: Install nvm
-  sudo: yes
-  sudo_user: "{{ nvm.user }}"
+  become: yes
   git: repo=https://github.com/creationix/nvm.git dest=~/.nvm version={{ nvm.version }}
   tags: nvm
 
 - name: Source nvm in ~/.profile
-  sudo: yes
-  sudo_user: "{{ nvm.user }}"
+  become: yes
   lineinfile: >
     dest=~/.profile
     line="source ~/.nvm/nvm.sh"
