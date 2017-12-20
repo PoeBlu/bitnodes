@@ -1,0 +1,12 @@
+[Unit]
+Description=Litecoin daemon serivce
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=/home/ubuntu/litecore/node_modules/litecore-node/bin/litecoind
+#ExecStart=/home/ubuntu/litecoin-0.15.0.1rc1/src/litecoind
+#ExecStart=/home/ubuntu/litecoin/src/litecoind
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,21 @@
+- name: Copy litecoin service file to systemd services
+  become: yes
+  template: src=templates/litecoin.service.j2 dest=/lib/systemd/system/litecoin.service
+
+- name: Copy litecore service file to systemd services
+  become: yes
+  template: src=templates/litecore.service.j2 dest=/lib/systemd/system/litecore.service
+
+- name: Enable litecoin service
+  become: yes
+  service:
+    name: litecoin
+    state: started
+    enabled: yes
+
+- name: Enable litecore service
+  become: yes
+  service:
+    name: litecore
+    state: started
+    enabled: yes

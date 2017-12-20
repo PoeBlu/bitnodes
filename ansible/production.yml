@@ -1,0 +1,44 @@
+- name: Provision litenodes
+  hosts: webservers
+  vars_files:
+    - "secrets.yml"
+  vars:
+    deploy_directory: /var/www/litenodes
+    crawler_director: /home/ubuntu/bitnodes
+    rbenv:
+      env: user
+      version: v1.0.0
+      default_ruby: 2.4.2
+      ruby_version: 2.4.2
+      rubies:
+        - version: 2.4.2
+  roles:
+    - role: zzet.rbenv
+    - role: stephdewit.nvm
+      nvm_version: 0.4.0
+      nvm_node_version: 0.10
+    - role: redis
+      redis_version: 4.0.6
+      become: yes
+    - role: logrotate
+      ignore_errors: true
+      become: yes
+      logrotate_scripts:
+        - name: litenodes-crawler
+          path: "{{deploy_directory}}/log/*.log"
+          options:
+            - weekly
+            - size 25M
+            - missingok
+            - compress
+            - delaycompress
+            - copytruncate
+        - name: rails
+          path: "{{deploy_directory}}/shared/log/*.log"
+          options:
+            - weekly
+            - size 25M
+            - missingok
+            - compress
+            - delaycompress
+            - copytruncate

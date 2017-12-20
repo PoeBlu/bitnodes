@@ -1,0 +1,88 @@
+- name: Install "litecore" node.js package globally.
+  npm:
+    name: litecore
+    global: yes
+
+- name: Install app dependencies
+  become: yes
+  action: apt pkg={{item}} state=installed
+  with_items:
+    - git
+    - build-essential
+    - libtool
+    - autotools-dev
+    - automake
+    - libssl-dev
+    - libevent-dev
+    - bsdmainutils
+    - libboost-all-dev
+  tags: package
+
+- name: Copy crawl service file to systemd services
+  become: yes
+  template: src=templates/crawl.service.j2 dest=/lib/systemd/system/crawl.service
+
+- name: Enable crawl service
+  become: yes
+  service:
+    name: crawl
+    state: started
+    enabled: yes
+
+- name: Copy crawl slave service file to systemd services
+  become: yes
+  template: src=templates/crawl_slave.service.j2 dest=/lib/systemd/system/crawl_slave.service
+
+- name: Enable crawl slave service
+  become: yes
+  service:
+    name: crawl_slave
+    state: started
+    enabled: yes
+
+- name: Copy export service file to systemd services
+  become: yes
+  template: src=templates/export.service.j2 dest=/lib/systemd/system/export.service
+
+- name: Enable export service
+  become: yes
+  service:
+    name: export
+    state: started
+    enabled: yes
+
+- name: Copy pcap service file to systemd services
+  become: yes
+  template: src=templates/pcap.service.j2 dest=/lib/systemd/system/pcap.service
+
+- name: Enable pcap service
+  become: yes
+  service:
+    name: pcap
+    state: started
+    enabled: yes
+
+- name: Copy ping service file to systemd services
+  become: yes
+  template: src=templates/ping.service.j2 dest=/lib/systemd/system/ping.service
+
+- name: Enable ping service
+  become: yes
+  service:
+    name: ping
+    state: started
+    enabled: yes
+
+- name: Copy ping_slave service file to systemd services
+  become: yes
+  template: src=templates/ping_slave.service.j2 dest=/lib/systemd/system/ping_slave.service
+
+- name: Enable ping_slave service
+  become: yes
+  service:
+    name: ping_slave
+    state: started
+    enabled: yes
+
+
+
