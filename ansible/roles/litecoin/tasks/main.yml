@@ -1,3 +1,17 @@
+- name: "Add litecored start bash file to work with nvm"
+  copy:
+    src: start_litecore.sh
+    dest: /home/ubuntu/start_litecore.sh
+    owner: ubuntu
+    group: ubuntu
+    mode: 0775
+
+- name: Make .litecoin conf directories
+  become: yes
+  file: path={{deploy_directory}}/shared/{{item}} state=directory owner=ubuntu group=ubuntu
+  with_items:
+    - tmp
+
 - name: Copy litecoin service file to systemd services
   become: yes
   template: src=templates/litecoin.service.j2 dest=/lib/systemd/system/litecoin.service

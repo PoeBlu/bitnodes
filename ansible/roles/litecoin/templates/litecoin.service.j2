@@ -5,8 +5,6 @@ After=network.target
 [Service]
 Type=simple
 User=ubuntu
-ExecStart=/home/ubuntu/litecore/node_modules/litecore-node/bin/litecoind
-#ExecStart=/home/ubuntu/litecoin-0.15.0.1rc1/src/litecoind
-#ExecStart=/home/ubuntu/litecoin/src/litecoind
+ExecStart=/home/ubuntu/.nvm/versions/node/v4.8.7/bin/litecoind
 [Install]
 WantedBy=multi-user.target

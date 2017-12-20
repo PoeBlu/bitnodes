@@ -1,10 +1,11 @@
 [Unit]
-Description=Start litecoin mainnet crawler slave2
-After=redis.service crawl.service
+Description=Start litecoin mainnet seeder
+After=redis.service
+
 
 [Service]
 WorkingDirectory=/home/ubuntu/bitnodes
-ExecStart=/home/ubuntu/.virtualenvs/bitnodes/bin/python -u crawl.py conf/crawl.conf.default slave
+ExecStart=/home/ubuntu/.virtualenvs/bitnodes/bin/python -u seeder.py conf/seeder.conf.default
 
 # output goes to /var/log/syslog
 StandardOutput=syslog
@@ -16,7 +17,7 @@ TimeoutStartSec=10s
 Restart=on-failure
 RestartSec=20s
 
-SyslogIdentifier=crawl_slave2
+SyslogIdentifier=seeder
 
 [Install]
 WantedBy=multi-user.target

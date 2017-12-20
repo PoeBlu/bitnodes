@@ -5,7 +5,7 @@ Requires=network.target
 [Service]
 Type=simple
 WorkingDirectory=/home/ubuntu/litecore
-ExecStart=/home/ubuntu/litecore/start.sh
+ExecStart=/home/ubuntu/start_litecore.sh
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
 RestartSec=15

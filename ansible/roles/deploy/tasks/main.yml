@@ -1,7 +1,34 @@
-- name: Install "litecore" node.js package globally.
-  npm:
-    name: litecore
-    global: yes
+- name: Add ansible repository
+  become: yes
+  apt_repository:
+    repo: ppa:ansible/ansible
+    state: present
+
+- name: Add bitcoin repository
+  become: yes
+  apt_repository:
+    repo: ppa:bitcoin/bitcoin
+    state: present
+
+- name: Remove useless packages from the cache
+  become: yes
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  become: yes
+  apt:
+    autoremove: yes
+
+
+- name: Create deployment directory
+  become: yes
+  file: path={{deploy_directory}} state=directory owner=ubuntu group=ubuntu
+
+- name: Make .litecoin conf directories
+  file: path=/home/ubuntu/{{item}} state=directory owner=ubuntu group=ubuntu
+  with_items:
+    - .litecoin
 
 - name: Install app dependencies
   become: yes
@@ -16,73 +43,35 @@
     - libevent-dev
     - bsdmainutils
     - libboost-all-dev
+    - python-dev
+    - libdb4.8-dev
+    - libdb4.8++-dev
+    - libzmq3-dev
   tags: package
 
-- name: Copy crawl service file to systemd services
-  become: yes
-  template: src=templates/crawl.service.j2 dest=/lib/systemd/system/crawl.service
+- name: Install global python requirements
+  pip: name={{item}} state=present
+  with_items:
+    - dpkt
+    - gevent
+    - ipaddress
+    - pygeoip
+    - PySocks
+    - redis
+    - requests
 
-- name: Enable crawl service
-  become: yes
-  service:
-    name: crawl
-    state: started
-    enabled: yes
+- name: Set authorized keys for ryan
+  authorized_key:
+    user: ubuntu
+    state: present
+    key: https://github.com/rromanchuk.keys
 
-- name: Copy crawl slave service file to systemd services
-  become: yes
-  template: src=templates/crawl_slave.service.j2 dest=/lib/systemd/system/crawl_slave.service
+- name: "Download latest bitnodes"
+  git:
+    repo: 'https://github.com/rromanchuk/bitnodes.git'
+    dest: /home/ubuntu
+    clone: no
 
-- name: Enable crawl slave service
-  become: yes
-  service:
-    name: crawl_slave
-    state: started
-    enabled: yes
-
-- name: Copy export service file to systemd services
-  become: yes
-  template: src=templates/export.service.j2 dest=/lib/systemd/system/export.service
-
-- name: Enable export service
-  become: yes
-  service:
-    name: export
-    state: started
-    enabled: yes
-
-- name: Copy pcap service file to systemd services
-  become: yes
-  template: src=templates/pcap.service.j2 dest=/lib/systemd/system/pcap.service
-
-- name: Enable pcap service
-  become: yes
-  service:
-    name: pcap
-    state: started
-    enabled: yes
-
-- name: Copy ping service file to systemd services
-  become: yes
-  template: src=templates/ping.service.j2 dest=/lib/systemd/system/ping.service
-
-- name: Enable ping service
-  become: yes
-  service:
-    name: ping
-    state: started
-    enabled: yes
-
-- name: Copy ping_slave service file to systemd services
-  become: yes
-  template: src=templates/ping_slave.service.j2 dest=/lib/systemd/system/ping_slave.service
-
-- name: Enable ping_slave service
-  become: yes
-  service:
-    name: ping_slave
-    state: started
-    enabled: yes
 
 
 

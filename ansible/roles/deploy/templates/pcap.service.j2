@@ -1,10 +1,11 @@
 [Unit]
-Description=Start tcpdump for litecoin network traffic
+Description=Start litecoin mainnet pcap script
+After=redis.service
 
 
 [Service]
 WorkingDirectory=/home/ubuntu/bitnodes
-ExecStart=/bin/bash start_tcpdump.sh
+ExecStart=/home/ubuntu/.virtualenvs/bitnodes/bin/python -u pcap.py conf/pcap.conf.default
 
 # output goes to /var/log/syslog
 StandardOutput=syslog
@@ -12,11 +13,12 @@ StandardError=syslog
 User=ubuntu
 Group=ubuntu
 
-TimeoutStartSec=10s
+TimeoutStartSec=16s
 Restart=on-failure
 RestartSec=20s
 
-SyslogIdentifier=tcpdump
+SyslogIdentifier=pcap
 
 [Install]
 WantedBy=multi-user.target
+

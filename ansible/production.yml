@@ -14,9 +14,8 @@
         - version: 2.4.2
   roles:
     - role: zzet.rbenv
-    - role: stephdewit.nvm
-      nvm_version: 0.4.0
-      nvm_node_version: 0.10
+    - role: deploy
+    - role: nvm
     - role: redis
       redis_version: 4.0.6
       become: yes
